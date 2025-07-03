@@ -1,50 +1,68 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KaiNetwork MC - Minecraft Bedrock Server</title>
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #0e0e0e;
+      background: linear-gradient(135deg, #0f0f0f, #111);
       margin: 0;
       padding: 0;
       color: white;
-      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+      background-attachment: fixed;
     }
+
     .content {
       max-width: 850px;
       margin: 40px auto;
       padding: 30px;
-      background: rgba(0, 0, 0, 0.75);
-      border-radius: 14px;
-      box-shadow: 0 0 25px rgba(0,255,255,0.15);
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: perspective(1000px) rotateX(0deg);
+      transition: transform 0.4s ease;
     }
+
+    .content:hover {
+      transform: perspective(1000px) rotateX(1deg);
+    }
+
     h1, h2 {
       color: #00ffff;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 8px #00ffff;
     }
+
     ul li::before {
       content: "🔹 ";
       color: #00ffff;
     }
+
     .button {
-      background-color: #00aaff;
+      background: linear-gradient(45deg, #00c3ff, #00ffaa);
       color: white;
       padding: 14px 30px;
-      border-radius: 10px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: bold;
       display: inline-block;
       margin-top: 20px;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
     }
+
     .button:hover {
-      background-color: #0088cc;
       transform: scale(1.05);
-      box-shadow: 0 0 12px #00ffff;
+      box-shadow: 0 0 15px #00ffff;
     }
+
     .toggle-mode {
       position: fixed;
       top: 15px;
@@ -54,38 +72,68 @@
       padding: 10px 15px;
       font-weight: bold;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 0 12px #00ffff;
+      z-index: 999;
     }
+
     footer {
       text-align: center;
       padding: 20px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.4);
       font-size: 0.9em;
     }
 
     .light-mode {
-      background: #f5f5f5;
-      color: #111;
+      background: linear-gradient(135deg, #ffffff, #e9f6ff);
+      color: #000;
     }
+
     .light-mode .content {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.85);
       color: #111;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
+
     .light-mode .button {
-      background-color: #007acc;
+      background: linear-gradient(45deg, #007acc, #00aaff);
       color: #fff;
     }
+
     .light-mode .toggle-mode {
       background: #007acc;
       color: #fff;
     }
+
     .light-mode ul li::before {
       color: #007acc;
     }
+
     .light-mode footer {
       background: rgba(255, 255, 255, 0.7);
       color: #333;
+    }
+
+    #server-status, #visitor-count {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 10px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: none;
     }
   </style>
 </head>
@@ -100,8 +148,8 @@
 <section class="content" data-aos="fade-up">
   <h2>🎟️ Beli Rank KaiNetwork</h2>
   <form id="rankForm">
-    <input type="text" id="username" placeholder="Nama Minecraft" required style="width:100%;padding:10px;margin-bottom:10px;">
-    <select id="rank" required style="width:100%;padding:10px;margin-bottom:10px;">
+    <input type="text" id="username" placeholder="Nama Minecraft" required>
+    <select id="rank" required>
       <option value="">-- Pilih Rank --</option>
       <option value="VIP">🥉 VIP (Rp15.000)</option>
       <option value="MVP">🎖 MVP (Rp25.000)</option>
@@ -109,7 +157,7 @@
       <option value="KAISTRONG">🏵 KAISTRONG (Rp100.000)</option>
       <option value="GLORY">🌸 GLORY (Rp200.000)</option>
     </select>
-    <select id="payment" required style="width:100%;padding:10px;margin-bottom:10px;">
+    <select id="payment" required>
       <option value="">-- Pilih Pembayaran --</option>
       <option value="Gopay">Gopay</option>
       <option value="Dana">Dana</option>
@@ -137,6 +185,12 @@
     <li>🌐 IP: <code>play.kainetworkmc.xyz</code></li>
     <li>🚪 Port: <code>25450</code></li>
   </ul>
+
+  <h3>🟢 Status Server:</h3>
+  <p id="server-status">Memuat status...</p>
+
+  <h3>👁️ Jumlah Pengunjung:</h3>
+  <p id="visitor-count">Memuat...</p>
 
   <div style="text-align:center; margin-top:30px;">
     <a href="minecraft://?addExternalServer=KaiNetwork|play.kainetworkmc.xyz:25450"
@@ -186,16 +240,38 @@
     const waURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(msg)}`;
     window.open(waURL, '_blank');
   });
+
+  // STATUS SERVER
+  fetch("https://api.mcstatus.io/v2/status/bedrock/play.kainetworkmc.xyz:25450")
+    .then(res => res.json())
+    .then(data => {
+      const status = document.getElementById("server-status");
+      if (data.online) {
+        status.textContent = `✅ Online - ${data.players.online} pemain online`;
+        status.style.color = "lime";
+      } else {
+        status.textContent = "❌ Offline";
+        status.style.color = "red";
+      }
+    }).catch(() => {
+      document.getElementById("server-status").textContent = "⚠️ Gagal mengambil status server";
+    });
+
+  // VISITOR COUNTER
+  fetch('https://api.countapi.xyz/hit/kainetworkmc/visits')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visitor-count').textContent = `${data.value.toLocaleString()} kunjungan`;
+    }).catch(() => {
+      document.getElementById('visitor-count').textContent = '❌ Gagal menghitung';
+    });
 </script>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
 
-<!-- CommentBox.io -->
 <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
-<script>
-  commentBox('5709506780594176-proj');
-</script>
+<script>commentBox('5709506780594176-proj');</script>
 
 </body>
 </html>
