@@ -16,7 +16,6 @@
       overflow-x: hidden;
       background-attachment: fixed;
     }
-
     .content {
       max-width: 850px;
       margin: 40px auto;
@@ -27,18 +26,15 @@
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     h1, h2 {
       color: #00ffff;
       font-family: 'Orbitron', sans-serif;
       text-shadow: 0 0 8px #00ffff;
     }
-
     ul li::before {
       content: "🔹 ";
       color: #00ffff;
     }
-
     .button {
       background: linear-gradient(45deg, #00c3ff, #00ffaa);
       color: white;
@@ -51,32 +47,27 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
     }
-
     .button:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px #00ffff;
     }
-
     footer {
       text-align: center;
       padding: 20px;
       background: rgba(0, 0, 0, 0.4);
       font-size: 0.9em;
     }
-
     #server-status {
       font-weight: bold;
       font-size: 1.1em;
       margin-top: 10px;
       animation: pulse 1.5s infinite;
     }
-
     @keyframes pulse {
       0% { opacity: 1; }
       50% { opacity: 0.6; }
       100% { opacity: 1; }
     }
-
     input, select, textarea {
       width: 100%;
       padding: 10px;
@@ -87,6 +78,15 @@
   </style>
 </head>
 <body>
+
+<!-- 📢 Notifikasi Selamat Datang -->
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      alert("👋 Selamat datang di website resmi KaiNetwork!\nAyo join dan jadilah legenda di server kami!");
+    }, 500);
+  });
+</script>
 
 <header class="content" data-aos="fade-down">
   <h1>📢 KaiNetwork Minecraft Bedrock Server</h1>
@@ -157,16 +157,15 @@
 </section>
 
 <section class="content" data-aos="fade-up">
-  <h2>🎨 Buat atau Edit Skin Minecraft</h2>
-  <p>Edit skin kamu langsung dari website ini menggunakan editor di bawah:</p>
-  <iframe src="https://minecraft.novaskin.me"
-          width="100%"
-          height="600px"
-          style="border-radius: 12px; border: none; box-shadow: 0 0 18px rgba(0,255,255,0.3);">
+  <h2>💬 Chat Komunitas Discord</h2>
+  <p>Gabung obrolan komunitas langsung dari sini, tanpa perlu buka aplikasi!</p>
+  <iframe src="https://discord.com/widget?id=1103844441189077163&theme=dark" 
+          width="100%" 
+          height="400" 
+          allowtransparency="true" 
+          frameborder="0" 
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
   </iframe>
-  <p style="font-size: 0.9em; color: #ccc; margin-top: 10px;">
-    Setelah selesai mengedit, klik tombol download untuk menyimpan skin ke perangkat kamu.
-  </p>
 </section>
 
 <section class="content" data-aos="fade-up">
@@ -217,7 +216,6 @@
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
-
 <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
 <script>commentBox('5709506780594176-proj');</script>
 
