@@ -57,13 +57,6 @@
       border-radius: 6px;
       cursor: pointer;
     }
-    .comment-box {
-      background: rgba(255,255,255,0.03);
-      border-left: 5px solid #00ffff;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 10px;
-    }
     footer {
       text-align: center;
       padding: 20px;
@@ -93,10 +86,6 @@
     .light-mode footer {
       background: rgba(255, 255, 255, 0.7);
       color: #333;
-    }
-    .light-mode .comment-box {
-      background: rgba(0, 0, 0, 0.05);
-      color: #000;
     }
   </style>
 </head>
@@ -170,13 +159,8 @@
 </section>
 
 <section class="content" data-aos="fade-up">
-  <h2>💬 Tinggalkan Komentar</h2>
-  <form id="commentForm">
-    <input type="text" id="nickname" placeholder="Nama Kamu" required style="width:100%;padding:10px;">
-    <textarea id="comment" placeholder="Komentar kamu..." required style="width:100%;padding:10px;margin-top:10px;"></textarea>
-    <button type="submit" class="button">🚀 Kirim</button>
-  </form>
-  <div id="commentList"></div>
+  <h2>💬 Komentar Pengunjung</h2>
+  <div class="commentbox"></div>
 </section>
 
 <footer>
@@ -202,22 +186,16 @@
     const waURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(msg)}`;
     window.open(waURL, '_blank');
   });
-
-  document.getElementById('commentForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('nickname').value.trim();
-    const comment = document.getElementById('comment').value.trim();
-    const html = `<div class="comment-box">
-      <strong>${name}</strong><br>
-      <p>${comment}</p>
-    </div>`;
-    document.getElementById('commentList').insertAdjacentHTML('beforeend', html);
-    document.getElementById('commentForm').reset();
-  });
 </script>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
+
+<!-- CommentBox.io -->
+<script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+<script>
+  commentBox('5709506780594176-proj');
+</script>
 
 </body>
 </html>
