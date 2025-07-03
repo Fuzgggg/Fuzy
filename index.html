@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KaiNetwork MC - Minecraft Bedrock Server</title>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
-    #particles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      background: transparent;
-    }
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #0e0e0e;
@@ -21,63 +14,29 @@
       color: white;
       transition: background 0.5s, color 0.5s;
     }
-    header {
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 30px 10px;
-      text-align: center;
-      box-shadow: 0 0 20px #00ffff;
-    }
-    header h1 {
-      font-size: 2.8em;
-      color: #00ffff;
-      text-shadow: 0 0 20px #00ffff;
-    }
-    .welcome {
-      background: linear-gradient(90deg, #00aaff, #00ffff);
-      color: black;
-      padding: 15px;
-      text-align: center;
-      font-size: 1.2em;
-    }
     .content {
-      max-width: 900px;
+      max-width: 850px;
       margin: 40px auto;
       padding: 30px;
       background: rgba(0, 0, 0, 0.75);
       border-radius: 14px;
       box-shadow: 0 0 25px rgba(0,255,255,0.15);
-      backdrop-filter: blur(8px);
     }
-    h2 {
+    h1, h2 {
       color: #00ffff;
-      border-bottom: 2px solid #00ffff;
-      margin-bottom: 15px;
-      padding-bottom: 7px;
-    }
-    ul {
-      list-style: none;
-      padding-left: 0;
     }
     ul li::before {
       content: "🔹 ";
       color: #00ffff;
     }
-    a {
-      color: #00ffff;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    a:hover {
-      text-shadow: 0 0 8px #00ffff;
-    }
     .button {
-      display: inline-block;
       background-color: #00aaff;
       color: white;
       padding: 14px 30px;
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
+      display: inline-block;
       margin-top: 20px;
       transition: all 0.3s ease;
     }
@@ -86,63 +45,74 @@
       transform: scale(1.05);
       box-shadow: 0 0 12px #00ffff;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: rgba(0,0,0,0.6);
-      font-size: 0.9em;
-      color: #ccc;
-    }
     .toggle-mode {
       position: fixed;
       top: 15px;
       right: 15px;
       background: #00ffff;
       color: #000;
-      border: none;
       padding: 10px 15px;
       font-weight: bold;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 5px;
-      box-shadow: 0 0 8px #00ffff;
-      z-index: 100;
     }
-    body.light-mode {
-      background: #f0f0f0;
-      color: #222;
+    .comment-box {
+      background: rgba(255,255,255,0.03);
+      border-left: 5px solid #00ffff;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 10px;
     }
-    body.light-mode .content,
-    body.light-mode header {
-      background-color: rgba(255, 255, 255, 0.85);
-      color: #000;
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      font-size: 0.9em;
     }
-    body.light-mode .button {
+
+    .light-mode {
+      background: #f5f5f5;
+      color: #111;
+    }
+    .light-mode .content {
+      background: rgba(255, 255, 255, 0.95);
+      color: #111;
+    }
+    .light-mode .button {
       background-color: #007acc;
+      color: #fff;
     }
-    body.light-mode a {
+    .light-mode .toggle-mode {
+      background: #007acc;
+      color: #fff;
+    }
+    .light-mode ul li::before {
       color: #007acc;
+    }
+    .light-mode footer {
+      background: rgba(255, 255, 255, 0.7);
+      color: #333;
+    }
+    .light-mode .comment-box {
+      background: rgba(0, 0, 0, 0.05);
+      color: #000;
     }
   </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
-<button class="toggle-mode" onclick="toggleMode()">🌗 Mode</button>
+<button class="toggle-mode" onclick="document.body.classList.toggle('light-mode')">🌗 Mode</button>
 
-<header data-aos="fade-down">
+<header class="content" data-aos="fade-down">
   <h1>📢 KaiNetwork Minecraft Bedrock Server</h1>
 </header>
 
-<div class="content" data-aos="fade-up">
+<section class="content" data-aos="fade-up">
   <h2>🎟️ Beli Rank KaiNetwork</h2>
-  <p>Pilih rank, metode pembayaran, dan masukkan nama Minecraft kamu. Setelah itu, klik tombol untuk langsung WhatsApp Admin!</p>
-
-  <form id="rankForm" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px;">
-    <label for="username">🎮 Nama Minecraft:</label>
-    <input type="text" id="username" required placeholder="Contoh: Player123" style="width: 100%; padding: 10px; border-radius: 6px; border: none; margin-bottom: 15px;">
-
-    <label for="rank">📘 Pilih Rank:</label>
-    <select id="rank" required style="width: 100%; padding: 10px; border-radius: 6px; border: none; margin-bottom: 15px;">
+  <form id="rankForm">
+    <input type="text" id="username" placeholder="Nama Minecraft" required style="width:100%;padding:10px;margin-bottom:10px;">
+    <select id="rank" required style="width:100%;padding:10px;margin-bottom:10px;">
       <option value="">-- Pilih Rank --</option>
       <option value="VIP">🥉 VIP (Rp15.000)</option>
       <option value="MVP">🎖 MVP (Rp25.000)</option>
@@ -150,84 +120,104 @@
       <option value="KAISTRONG">🏵 KAISTRONG (Rp100.000)</option>
       <option value="GLORY">🌸 GLORY (Rp200.000)</option>
     </select>
-
-    <label for="payment">💳 Pilih Pembayaran:</label>
-    <select id="payment" required style="width: 100%; padding: 10px; border-radius: 6px; border: none; margin-bottom: 15px;">
-      <option value="">-- Pilih Metode --</option>
+    <select id="payment" required style="width:100%;padding:10px;margin-bottom:10px;">
+      <option value="">-- Pilih Pembayaran --</option>
       <option value="Gopay">Gopay</option>
       <option value="Dana">Dana</option>
       <option value="ShopeePay">ShopeePay</option>
       <option value="OVO">OVO</option>
       <option value="QRIS">QRIS</option>
     </select>
-
-    <button type="submit" class="button" style="width: 100%;">📲 Beli Sekarang via WhatsApp</button>
+    <button type="submit" class="button">📲 Beli via WhatsApp</button>
   </form>
-</div>
+</section>
+
+<section class="content" data-aos="fade-up">
+  <h2>📢 INFO & RULES KaiNetwork</h2>
+  <ul>
+    <li>No link/promosi/18+/spam</li>
+    <li>No bahas agama</li>
+    <li>No baperan / toxic berlebihan</li>
+    <li>No rasis/sara/provokator</li>
+    <li>No cheat/tb/X-ray</li>
+    <li>No ngemis admin/money/staff</li>
+  </ul>
+
+  <h3>🧭 Cara Join Minecraft Bedrock:</h3>
+  <ul>
+    <li>🌐 IP: <code>play.kainetworkmc.xyz</code></li>
+    <li>🚪 Port: <code>25450</code></li>
+  </ul>
+
+  <div style="text-align:center; margin-top:30px;">
+    <a href="minecraft://?addExternalServer=KaiNetwork|play.kainetworkmc.xyz:25450"
+       class="button" style="background:#00ffcc; color:black;">
+      🎮 Join Server Langsung via Minecraft
+    </a>
+    <p style="margin-top:8px; font-size:0.9em; color:#aaa;">
+      Klik tombol ini dari Android atau Windows 10 (Minecraft Bedrock)
+    </p>
+  </div>
+
+  <h3>🔗 Link Tambahan:</h3>
+  <ul>
+    <li><a href="https://bit.ly/webkainet" target="_blank">🌐 Website</a></li>
+    <li><a href="https://chat.whatsapp.com/Jv3WkkIaGUp8XyKXRRqXWT" target="_blank">💬 Grup WA</a></li>
+    <li><a href="https://bit.ly/DiscordKainet" target="_blank">🎧 Discord</a></li>
+    <li><a href="https://bit.ly/Votekai1" target="_blank">🗳️ Vote Server</a></li>
+    <li><a href="https://screenapp.io/app/#/shared/OwRut0UrDO" target="_blank">📹 Tutorial Land Claim</a></li>
+  </ul>
+</section>
+
+<section class="content" data-aos="fade-up">
+  <h2>💬 Tinggalkan Komentar</h2>
+  <form id="commentForm">
+    <input type="text" id="nickname" placeholder="Nama Kamu" required style="width:100%;padding:10px;">
+    <textarea id="comment" placeholder="Komentar kamu..." required style="width:100%;padding:10px;margin-top:10px;"></textarea>
+    <button type="submit" class="button">🚀 Kirim</button>
+  </form>
+  <div id="commentList"></div>
+</section>
+
+<footer>
+  &copy; 2025 KaiNetwork MC. All rights reserved.
+</footer>
+
+<script>
+  const rankFeatures = {
+    VIP: "🥉 VIP (Rp15.000)\nFitur: /feed, /fly, /heal, /mine reset\nBonus: 💸100.000",
+    MVP: "🎖 MVP (Rp25.000)\nFitur: /feed, /fly, /heal, /v, /rename\nBonus: 💸500.000",
+    LEGENDS: "🏅 LEGENDS (Rp40.000)\nFitur: /feed, /fly, /bc, /nick\nBonus: 💸1.000.000",
+    KAISTRONG: "🏵 KAISTRONG (Rp100.000)\nFitur: /fly, /unvanish, /tp, /gmspc\nBonus: 💸5.000.000",
+    GLORY: "🌸 GLORY (Rp200.000)\nFitur: /gmc, /repair, /sizeui\nBonus: 💸10.000.000"
+  };
+
+  document.getElementById('rankForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const rank = document.getElementById('rank').value;
+    const payment = document.getElementById('payment').value;
+    const adminNumber = "6281252768236";
+    const msg = `Halo Admin KaiNetwork 👋\nSaya ingin beli rank:\n👤 ${user}\n${rankFeatures[rank]}\n💳 Pembayaran: ${payment}`;
+    const waURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(msg)}`;
+    window.open(waURL, '_blank');
+  });
+
+  document.getElementById('commentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('nickname').value.trim();
+    const comment = document.getElementById('comment').value.trim();
+    const html = `<div class="comment-box">
+      <strong>${name}</strong><br>
+      <p>${comment}</p>
+    </div>`;
+    document.getElementById('commentList').insertAdjacentHTML('beforeend', html);
+    document.getElementById('commentForm').reset();
+  });
+</script>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
 
-<script>
-  function toggleMode() {
-    document.body.classList.toggle('light-mode');
-  }
-
-  document.getElementById('rankForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const username = document.getElementById('username').value.trim();
-    const rank = document.getElementById('rank').value;
-    const payment = document.getElementById('payment').value;
-
-    const adminNumber = "6281234567890"; // GANTI nomor admin kamu
-
-    const rankFeatures = {
-      "VIP": `
-🥉 VIP (Rp15.000)
-Fitur:
-• /feed
-• /fly
-• /heal
-• /mine reset
-Bonus: 💸 100.000`,
-      "MVP": `
-🎖 MVP (Rp25.000)
-Fitur:
-• /feed, /fly, /heal
-• /v, /rename
-• /mine reset
-Bonus: 💸 500.000`,
-      "LEGENDS": `
-🏅 LEGENDS (Rp40.000)
-Fitur:
-• /feed, /fly
-• /v, /rename, /bc
-• /nick, /mine reset
-Bonus: 💸 1.000.000`,
-      "KAISTRONG": `
-🏵 KAISTRONG (Rp100.000)
-Fitur:
-• /feed, /fly, /v, /unvanish
-• /nick, /gmspc, /gms, /gma
-• /bc, /rename, /mine reset
-• /tp, /sizeui
-Bonus: 💸 5.000.000`,
-      "GLORY": `
-🌸 GLORY (Rp200.000)
-Fitur:
-• /feed, /fly, /v, /unvanish
-• /nick, /gmc, /gms, /gma, /gmdspc
-• /bc, /rename, /mine reset
-• /tp, /sizeui, /timeui, /repair
-Bonus: 💸 10.000.000`
-    };
-
-    const pesan = `Halo Admin KaiNetwork 👋\nSaya ingin beli rank Minecraft:\n\n👤 Username: *${username}*\n${rankFeatures[rank]}\n\n💳 Metode Pembayaran: *${payment}*\nTerima kasih!`;
-
-    const waURL = `https://wa.me/${adminNumber}?text=${encodeURIComponent(pesan)}`;
-    window.open(waURL, '_blank');
-  });
-</script>
 </body>
 </html>
