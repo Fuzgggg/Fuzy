@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KaiNetworkMC</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <audio id="click-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_34dbee45c3.mp3"></audio>
   <style>
     :root {
@@ -50,7 +48,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
-      margin-top: 2rem;
+      margin-top: 1.2rem;
     }
     .rank-card {
       background: var(--card-bg);
@@ -61,13 +59,13 @@
       transition: transform 0.3s ease;
     }
     .rank-card:hover { transform: scale(1.05); }
-    form, .comments {
+    form {
       background: rgba(0,0,0,0.04);
       padding: 2rem;
       border-radius: 10px;
       margin-top: 2rem;
     }
-    input, select, textarea, button {
+    input, select, button {
       width: 100%;
       padding: 0.9rem;
       margin: 0.7rem 0;
@@ -84,22 +82,6 @@
     }
     button:hover { background: #0ff; }
     button:active { transform: scale(0.96); }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .comment-item {
-      background: var(--card-bg);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 0.7rem;
-      animation: fadeInUp 0.4s ease both;
-    }
-    .status {
-      margin-top: 1rem;
-      font-weight: bold;
-      color: var(--text-color);
-    }
     .theme-toggle {
       position: fixed;
       top: 1rem;
@@ -130,24 +112,23 @@
       border-radius: 20px;
       color: #000;
       box-shadow: 0 10px 30px rgba(0,255,255,0.3);
-      margin: 3rem auto;
-      max-width: 800px;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      animation: floatUp 2s ease-in-out forwards;
+      margin: 2rem auto;
     }
     .rules-box h2 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      font-size: 1.6rem;
       font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .rules-box ul {
       list-style: none;
-      padding-left: 0;
+      padding-left: 1rem;
+      margin-top: 1rem;
     }
     .rules-box ul li {
-      padding: 0.5rem 0;
+      padding: 0.4rem 0;
       font-weight: 500;
     }
     .rules-links a {
@@ -165,124 +146,233 @@
       transform: scale(1.05) rotateX(6deg);
       background: #fff;
     }
-    @keyframes floatUp {
-      0% { opacity: 0; transform: translateY(30px) rotateX(15deg); }
-      100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-    }
   </style>
 </head>
 <body class="dark">
   <div id="welcomeBubble">👋 Selamat Datang di KaiNetworkMC!</div>
   <div class="theme-toggle" onclick="toggleTheme()">🌙/☀️</div>
-  <header>
-    <h1>KaiNetworkMC</h1>
-    <p>IP: <strong>play.kainetworkmc.xyz</strong> | Port: <strong>25450</strong></p>
-    <button class="join-btn" onclick="window.open('minecraft://?addExternalServer=KaiNetworkMC|play.kainetworkmc.xyz:25450')">🚀 Join Now</button>
-    <div class="status" id="serverStatus">🔄 Mengecek status server...</div>
-  </header>
-  <section class="section">
-    <h2>🎖️ Daftar Rank</h2>
-    <div class="rank-list">
+<header>
+  <h1>KaiNetworkMC</h1>
+  <p>IP: <strong>play.kainetworkmc.xyz</strong> | Port: <strong>25450</strong></p>
+  <button class="join-btn" onclick="window.open('minecraft://?addExternalServer=KaiNetworkMC|play.kainetworkmc.xyz:25450')">🚀 Join Now</button>
+  <div class="status" id="serverStatus">🔄 Mengecek status server...</div>
+</header>
+
+<section class="section">
+  <!-- DAFTAR RANK -->
+  <div class="rules-box">
+    <h2 onclick="toggleRanks()">🎖️ Daftar Rank <span id="arrowRank">▼</span></h2>
+    <div class="rank-list" id="rankList" style="display:none;">
       <div class="rank-card"><h3>🥉 VIP – 15K</h3><p>/feed, /fly, /heal, /mine reset<br>Bonus: 100K</p></div>
       <div class="rank-card"><h3>🎖 MVP – 25K</h3><p>/fly, /v, /rename, /mine reset<br>Bonus: 500K</p></div>
       <div class="rank-card"><h3>🏆 LEGENDS – 40K</h3><p>/bc, /nick, /rename, /v<br>Bonus: 1JT</p></div>
       <div class="rank-card"><h3>💠 KAISTRONG – 100K</h3><p>All Commands + /sizeUI, /tp<br>Bonus: 5JT</p></div>
       <div class="rank-card"><h3>🌸 GLORY – 200K</h3><p>Full Commands + /repair, /timeUI<br>Bonus: 10JT</p></div>
     </div>
-    <form onsubmit="return kirimWA()">
-      <h2>🛍️ Formulir Pembelian</h2>
-      <select id="rank" required>
-        <option value="">Pilih Rank</option>
-        <option value="VIP">VIP</option>
-        <option value="MVP">MVP</option>
-        <option value="LEGENDS">LEGENDS</option>
-        <option value="KAISTRONG">KAISTRONG</option>
-        <option value="GLORY">GLORY</option>
-      </select>
-      <input type="text" id="player" placeholder="Nama Player Minecraft" required>
-      <select id="bayar" required>
-        <option value="">Metode Pembayaran</option>
-        <option value="Dana">Dana</option>
-        <option value="Gopay">Gopay</option>
-        <option value="ShopeePay">ShopeePay</option>
-        <option value="OVO">OVO</option>
-        <option value="QRIS">QRIS</option>
-      </select>
-      <button type="submit">💬 Beli Sekarang via WhatsApp</button>
-    </form>
-    <div class="rules-box">
-      <h2>🍀 🏹Rules🏹 🍁</h2>
-      <ul>
-        <li>No link/promosi/18+/Spam</li>
-        <li>No bahas agama</li>
-        <li>No baperan</li>
-        <li>No rasis/sara</li>
-        <li>No provokator</li>
-        <li>No Cheat/tb/X-ray</li>
-        <li>No ngemis admin/op/Money/staff dll</li>
-        <li>Toxic sewajarnya</li>
-      </ul>
-      <div class="rules-links">
-        <a href="https://bit.ly/webkainet" target="_blank">🌐 Web: bit.ly/webkainet</a>
-        <a href="https://web.kainetworkmc.xyz" target="_blank">🌐 Web 2: web.kainetworkmc.xyz</a>
-        <a href="https://chat.whatsapp.com/Jv3WkkIaGUp8XyKXRRqXWT" target="_blank">💬 Grup WA</a>
-        <a href="https://discord.gg/EfcJpcsfJ5" target="_blank">🎮 Discord</a>
-        <a href="https://bit.ly/Votekai1" target="_blank">🗳️ Vote</a>
-        <a href="https://screenapp.io/app/#/shared/OwRut0UrDO" target="_blank">👉Tutorial Claim Land</a>
-      </div>
-    </div>
-  </section>
-  <script>
-    // (script tetap sama, tidak ditampilkan agar ringkas)
-  </script>
+  </div>
 
+  <!-- MONEY -->
+  <div class="rules-box">
+    <h2 onclick="toggleMoney()">💰 Money <span id="arrowMoney">▼</span></h2>
+    <ul id="moneyList" style="display:none;">
+      <li>10 juta → 5k</li>
+      <li>20 juta → 10k</li>
+      <li>30 juta → 15k</li>
+      <li>40 juta → 20k</li>
+      <li>50 juta → 25k</li>
+      <li>60 juta → 30k</li>
+      <li>70 juta → 35k</li>
+      <li>80 juta → 40k</li>
+      <li>90 juta → 45k</li>
+      <li>150 juta → 50k</li>
+    </ul>
+  </div>
+<!-- 🛍️ FORMULIR PEMBELIAN -->
+<form onsubmit="return kirimWA()">
+  <h2>🛍️ Formulir Pembelian</h2>
 
+  <select id="tipe" onchange="togglePembelian()" required>
+    <option value="">Pilih Tipe Pembelian</option>
+    <option value="rank">🎖️ Rank</option>
+    <option value="money">💰 Money</option>
+  </select>
+
+  <!-- Grup Rank -->
+  <div id="rankGroup" style="display:none;">
+    <select id="rank">
+      <option value="">Pilih Rank</option>
+      <option value="VIP">VIP – 15K</option>
+      <option value="MVP">MVP – 25K</option>
+      <option value="LEGENDS">LEGENDS – 40K</option>
+      <option value="KAISTRONG">KAISTRONG – 100K</option>
+      <option value="GLORY">GLORY – 200K</option>
+    </select>
+  </div>
+
+  <!-- Grup Money -->
+  <div id="moneyGroup" style="display:none;">
+    <select id="money">
+      <option value="">Pilih Jumlah Money</option>
+      <option value="5k">5k (10 juta)</option>
+      <option value="10k">10k (20 juta)</option>
+      <option value="15k">15k (30 juta)</option>
+      <option value="20k">20k (40 juta)</option>
+      <option value="25k">25k (50 juta)</option>
+      <option value="30k">30k (60 juta)</option>
+      <option value="35k">35k (70 juta)</option>
+      <option value="40k">40k (80 juta)</option>
+      <option value="45k">45k (90 juta)</option>
+      <option value="50k">50k (150 juta)</option>
+    </select>
+  </div>
+
+  <input type="text" id="player" placeholder="Nama Player Minecraft" required>
+
+  <select id="bayar" required>
+    <option value="">Metode Pembayaran</option>
+    <option value="Dana">Dana</option>
+    <option value="Gopay">Gopay</option>
+    <option value="ShopeePay">ShopeePay</option>
+    <option value="OVO">OVO</option>
+    <option value="QRIS">QRIS</option>
+  </select>
+
+  <button type="submit">💬 Beli Sekarang via WhatsApp</button>
+</form>
 <script>
+  const rankHarga = {
+    VIP: "15K",
+    MVP: "25K",
+    LEGENDS: "40K",
+    KAISTRONG: "100K",
+    GLORY: "200K"
+  };
+
+  const moneyHarga = {
+    "5k": "10 juta",
+    "10k": "20 juta",
+    "15k": "30 juta",
+    "20k": "40 juta",
+    "25k": "50 juta",
+    "30k": "60 juta",
+    "35k": "70 juta",
+    "40k": "80 juta",
+    "45k": "90 juta",
+    "50k": "150 juta"
+  };
+
+  function toggleRanks() {
+    const list = document.getElementById("rankList");
+    const arrow = document.getElementById("arrowRank");
+    const show = list.style.display === "none";
+    list.style.display = show ? "grid" : "none";
+    arrow.textContent = show ? "▲" : "▼";
+  }
+
+  function toggleMoney() {
+    const list = document.getElementById("moneyList");
+    const arrow = document.getElementById("arrowMoney");
+    const show = list.style.display === "none";
+    list.style.display = show ? "block" : "none";
+    arrow.textContent = show ? "▲" : "▼";
+  }
+
+  function togglePembelian() {
+    const tipe = document.getElementById("tipe").value;
+    document.getElementById("rankGroup").style.display = tipe === "rank" ? "block" : "none";
+    document.getElementById("moneyGroup").style.display = tipe === "money" ? "block" : "none";
+  }
+
+  function kirimWA() {
+    const tipe = document.getElementById("tipe").value;
+    const player = document.getElementById("player").value;
+    const bayar = document.getElementById("bayar").value;
+    let pesan = `Halo Admin! Saya ingin beli `;
+
+    if (tipe === "rank") {
+      const rank = document.getElementById("rank").value;
+      const harga = rankHarga[rank] || "-";
+      pesan += `rank:\n\n📛 Nama: ${player}\n🎖 Rank: ${rank} – ${harga}\n💳 Pembayaran: ${bayar}`;
+    } else if (tipe === "money") {
+      const money = document.getElementById("money").value;
+      const konversi = moneyHarga[money] || "-";
+      pesan += `money:\n\n📛 Nama: ${player}\n💰 Money: ${money} (${konversi})\n💳 Pembayaran: ${bayar}`;
+    } else {
+      alert("Silakan pilih tipe pembelian!");
+      return false;
+    }
+
+    window.open(`https://wa.me/6281252768236?text=${encodeURIComponent(pesan)}`);
+    return false;
+  }
+
   // Suara klik
   document.querySelectorAll("button, .join-btn, .theme-toggle").forEach(el => {
     el.addEventListener("click", () => {
-      document.getElementById("click-sound").play();
+      const audio = document.getElementById("click-sound");
+      if (audio) audio.play();
     });
   });
 
-  // Tema
+  // Tema gelap/terang
   function toggleTheme() {
     document.body.classList.toggle("dark");
   }
 
-  // Bubble Selamat Datang
+  // Bubble sambutan
   window.addEventListener("load", () => {
     const bubble = document.getElementById("welcomeBubble");
-    bubble.style.display = "block";
-    setTimeout(() => {
-      bubble.style.display = "none";
-    }, 5000);
+    if (bubble) {
+      bubble.style.display = "block";
+      setTimeout(() => {
+        bubble.style.display = "none";
+      }, 5000);
+    }
+
+    // Cek status server
+    fetch("https://api.mcstatus.io/v2/status/bedrock/play.kainetworkmc.xyz:25450")
+      .then(res => res.json())
+      .then(data => {
+        const status = document.getElementById("serverStatus");
+        if (data.online) {
+          status.textContent = `🟢 Online – ${data.players.online}/${data.players.max} pemain`;
+        } else {
+          status.textContent = "🔴 Server Offline";
+        }
+      })
+      .catch(() => {
+        const status = document.getElementById("serverStatus");
+        if (status) status.textContent = "⚠️ Gagal cek status server.";
+      });
   });
-
-  // Status server dari mcstatus.io
-  fetch("https://api.mcstatus.io/v2/status/bedrock/play.kainetworkmc.xyz:25450")
-    .then(res => res.json())
-    .then(data => {
-      const status = document.getElementById("serverStatus");
-      if (data.online) {
-        status.textContent = `🟢 Online – ${data.players.online}/${data.players.max} pemain`;
-      } else {
-        status.textContent = "🔴 Server Offline";
-      }
-    })
-    .catch(() => {
-      document.getElementById("serverStatus").textContent = "⚠️ Gagal cek status server.";
-    });
-
-  // Kirim Form WA
-  function kirimWA() {
-    const rank = document.getElementById("rank").value;
-    const player = document.getElementById("player").value;
-    const bayar = document.getElementById("bayar").value;
-    const pesan = `Halo Admin! Saya ingin beli rank:\n\n📛 Nama: ${player}\n🎟 Rank: ${rank}\n💳 Pembayaran: ${bayar}`;
-    window.open(`https://wa.me/6281252768236?text=${encodeURIComponent(pesan)}`);
-    return false;
-  }
 </script>
+<!-- 📜 RULES SERVER -->
+<div class="rules-box">
+  <h2>🍀 🏹 Rules KaiNetworkMC 🏹 🍁</h2>
+  <ul>
+    <li>No link/promosi/18+/Spam</li>
+    <li>No bahas agama</li>
+    <li>No baperan</li>
+    <li>No rasis/sara</li>
+    <li>No provokator</li>
+    <li>No Cheat/tb/X-ray</li>
+    <li>No ngemis admin/op/Money/staff dll</li>
+    <li>Toxic sewajarnya</li>
+  </ul>
+</div>
+
+<!-- 🔗 LINK PENTING -->
+<div class="rules-box">
+  <h2>🌐 Link Penting</h2>
+  <div class="rules-links">
+    <a href="https://bit.ly/webkainet" target="_blank">🌐 Web: bit.ly/webkainet</a>
+    <a href="https://web.kainetworkmc.xyz" target="_blank">🌐 Web 2: web.kainetworkmc.xyz</a>
+    <a href="https://chat.whatsapp.com/Jv3WkkIaGUp8XyKXRRqXWT" target="_blank">💬 Grup WhatsApp</a>
+    <a href="https://discord.gg/EfcJpcsfJ5" target="_blank">🎮 Discord</a>
+    <a href="https://bit.ly/Votekai1" target="_blank">🗳️ Vote Server</a>
+    <a href="https://screenapp.io/app/#/shared/OwRut0UrDO" target="_blank">📌 Tutorial Claim Land</a>
+  </div>
+</div>
+</section>
 </body>
 </html>
