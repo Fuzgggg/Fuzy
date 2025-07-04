@@ -9,185 +9,167 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <audio id="click-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_34dbee45c3.mp3"></audio>
   <style>
-:root {
-  --bg-color: #f2f5fa;
-  --text-color: #000;
-  --card-bg: #e0ecf7;
-  --accent: #00c3ff;
-}
-body.dark {
-  --bg-color: #121c2e;
-  --text-color: #fff;
-  --card-bg: #1c273d;
-  --accent: #00fcd1;
-}
-* { box-sizing: border-box; font-family: 'Rubik', sans-serif; }
-body {
-  margin: 0;
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
-}
-header {
-  text-align: center;
-  padding: 2rem 1rem;
-  background: linear-gradient(135deg, var(--accent), #0ff);
-  color: #000;
-}
-.join-btn {
-  background: #0ff;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 0 15px rgba(0,255,255,0.4);
-  transition: transform 0.3s ease;
-}
-.join-btn:hover { transform: scale(1.05); }
-.section { max-width: 800px; margin: auto; padding: 2rem 1.5rem; }
-.rank-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-.rank-card {
-  background: var(--card-bg);
-  border: 2px solid var(--accent);
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 0 15px rgba(0,255,255,0.15);
-  transition: transform 0.3s ease;
-}
-.rank-card:hover { transform: scale(1.05); }
-form, .comments {
-  background: rgba(0,0,0,0.04);
-  padding: 2rem;
-  border-radius: 10px;
-  margin-top: 2rem;
-}
-input, select, textarea, button {
-  width: 100%;
-  padding: 0.9rem;
-  margin: 0.7rem 0;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
-button {
-  background: var(--accent);
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-button:hover { background: #0ff; }
-button:active { transform: scale(0.96); }
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.comment-item {
-  background: var(--card-bg);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 0.7rem;
-  animation: fadeInUp 0.4s ease both;
-}
-.reply-box {
-  margin-top: 1rem;
-  margin-left: 1.5rem;
-  border-left: 2px solid var(--accent);
-  padding-left: 1rem;
-}
-.reply-form {
-  margin-top: 0.5rem;
-  background: rgba(0,0,0,0.05);
-  padding: 0.8rem;
-  border-radius: 6px;
-}
-.reply {
-  background: rgba(0,0,0,0.07);
-  border-radius: 6px;
-  padding: 0.6rem 0.8rem;
-  margin-top: 0.4rem;
-}
-.status {
-  margin-top: 1rem;
-  font-weight: bold;
-  color: var(--text-color);
-}
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: var(--accent);
-  color: #000;
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  z-index: 1000;
-}
-#welcomeBubble {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #0ff;
-  padding: 1rem 1.2rem;
-  border-radius: 10px;
-  color: #000;
-  font-weight: bold;
-  box-shadow: 0 0 10px #0ff;
-  z-index: 999;
-  display: none;
-}
-.rules-box {
-  background: linear-gradient(135deg, #0ff, #00c3ff);
-  padding: 2rem;
-  border-radius: 20px;
-  color: #000;
-  box-shadow: 0 10px 30px rgba(0,255,255,0.3);
-  margin: 3rem auto;
-  max-width: 800px;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  animation: floatUp 2s ease-in-out forwards;
-}
-.rules-box h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-.rules-box ul {
-  list-style: none;
-  padding-left: 0;
-}
-.rules-box ul li {
-  padding: 0.5rem 0;
-  font-weight: 500;
-}
-.rules-links a {
-  display: block;
-  color: #000;
-  background: rgba(255,255,255,0.6);
-  margin: 0.5rem 0;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-.rules-links a:hover {
-  transform: scale(1.05) rotateX(6deg);
-  background: #fff;
-}
-@keyframes floatUp {
-  0% { opacity: 0; transform: translateY(30px) rotateX(15deg); }
-  100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-}
-</style>
+    :root {
+      --bg-color: #f2f5fa;
+      --text-color: #000;
+      --card-bg: #e0ecf7;
+      --accent: #00c3ff;
+    }
+    body.dark {
+      --bg-color: #121c2e;
+      --text-color: #fff;
+      --card-bg: #1c273d;
+      --accent: #00fcd1;
+    }
+    * { box-sizing: border-box; font-family: 'Rubik', sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, var(--accent), #0ff);
+      color: #000;
+    }
+    .join-btn {
+      background: #0ff;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 15px rgba(0,255,255,0.4);
+      transition: transform 0.3s ease;
+    }
+    .join-btn:hover { transform: scale(1.05); }
+    .section { max-width: 800px; margin: auto; padding: 2rem 1.5rem; }
+    .rank-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .rank-card {
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 15px rgba(0,255,255,0.15);
+      transition: transform 0.3s ease;
+    }
+    .rank-card:hover { transform: scale(1.05); }
+    form, .comments {
+      background: rgba(0,0,0,0.04);
+      padding: 2rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 0.9rem;
+      margin: 0.7rem 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: var(--accent);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { background: #0ff; }
+    button:active { transform: scale(0.96); }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .comment-item {
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 0.7rem;
+      animation: fadeInUp 0.4s ease both;
+    }
+    .status {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    #welcomeBubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0ff;
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px #0ff;
+      z-index: 999;
+      display: none;
+    }
+    .rules-box {
+      background: linear-gradient(135deg, #0ff, #00c3ff);
+      padding: 2rem;
+      border-radius: 20px;
+      color: #000;
+      box-shadow: 0 10px 30px rgba(0,255,255,0.3);
+      margin: 3rem auto;
+      max-width: 800px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      animation: floatUp 2s ease-in-out forwards;
+    }
+    .rules-box h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    .rules-box ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .rules-box ul li {
+      padding: 0.5rem 0;
+      font-weight: 500;
+    }
+    .rules-links a {
+      display: block;
+      color: #000;
+      background: rgba(255,255,255,0.6);
+      margin: 0.5rem 0;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .rules-links a:hover {
+      transform: scale(1.05) rotateX(6deg);
+      background: #fff;
+    }
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(30px) rotateX(15deg); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+    }
+  </style>
 </head>
 <body class="dark">
   <div id="welcomeBubble">👋 Selamat Datang di KaiNetworkMC!</div>
@@ -253,34 +235,34 @@ button:active { transform: scale(0.96); }
         <a href="https://chat.whatsapp.com/Jv3WkkIaGUp8XyKXRRqXWT" target="_blank">💬 Grup WA</a>
         <a href="https://discord.gg/EfcJpcsfJ5" target="_blank">🎮 Discord</a>
         <a href="https://bit.ly/Votekai1" target="_blank">🗳️ Vote</a>
-        <a href="https://screenapp.io/app/#/shared/OwRut0UrDO"target="_blank">👉Tutorial Claim Land</a>
+        <a href="https://screenapp.io/app/#/shared/OwRut0UrDO" target="_blank">👉Tutorial Claim Land</a>
       </div>
     </div>
   </section>
+
   <script>
-    <script>
-  // 🔊 Suara Klik
+  // Suara klik
   document.querySelectorAll("button, .join-btn, .theme-toggle").forEach(el => {
     el.addEventListener("click", () => {
       document.getElementById("click-sound").play();
     });
   });
 
-  // 🌗 Toggle Tema
+  // Tema
   function toggleTheme() {
     document.body.classList.toggle("dark");
   }
 
-  // 💬 Notifikasi Selamat Datang
+  // Bubble Selamat Datang
   window.addEventListener("load", () => {
     const bubble = document.getElementById("welcomeBubble");
     bubble.style.display = "block";
     setTimeout(() => {
       bubble.style.display = "none";
-    }, 5000); // Muncul 5 detik
+    }, 5000);
   });
 
-  // 🟢 Cek Status Server Minecraft Bedrock
+  // Status server dari mcstatus.io
   fetch("https://api.mcstatus.io/v2/status/bedrock/play.kainetworkmc.xyz:25450")
     .then(res => res.json())
     .then(data => {
@@ -290,47 +272,107 @@ button:active { transform: scale(0.96); }
       } else {
         status.textContent = "🔴 Server Offline";
       }
-    }).catch(() => {
+    })
+    .catch(() => {
       document.getElementById("serverStatus").textContent = "⚠️ Gagal cek status server.";
     });
 
-  // 🛒 Form WhatsApp Beli Rank
+  // Kirim Form WA
   function kirimWA() {
     const rank = document.getElementById("rank").value;
     const player = document.getElementById("player").value;
     const bayar = document.getElementById("bayar").value;
-
-    const teks = `Halo Admin! Saya ingin beli rank:\n\n📛 Nama: ${player}\n🎟 Rank: ${rank}\n💳 Pembayaran: ${bayar}\n\nWeb: KaiNetworkMC`;
-    const waLink = `https://wa.me/6281252768236?text=${encodeURIComponent(teks)}`;
-    window.open(waLink, "_blank");
+    const pesan = `Halo Admin! Saya ingin beli rank:\n\n📛 Nama: ${player}\n🎟 Rank: ${rank}\n💳 Pembayaran: ${bayar}`;
+    window.open(`https://wa.me/6281252768236?text=${encodeURIComponent(pesan)}`);
     return false;
   }
 
-  // 💬 Komentar Firebase
+  // Firebase init
   const firebaseConfig = {
     databaseURL: "https://kainetworkmc-default-rtdb.firebaseio.com/"
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
+  // Kirim komentar utama
   function kirimKomentar() {
     const nama = document.getElementById("nama").value || "Anonim";
-    const pesan = document.getElementById("pesan").value;
-    if (!pesan.trim()) return;
-
-    const komentarRef = db.ref("komentar").push();
-    komentarRef.set({ nama, pesan, waktu: Date.now() });
+    const pesan = document.getElementById("pesan").value.trim();
+    if (!pesan) return;
+    const waktu = new Date().toISOString();
+    const ref = db.ref("komentar").push();
+    ref.set({ nama, pesan, waktu });
     document.getElementById("pesan").value = "";
   }
 
-  db.ref("komentar").on("child_added", snapshot => {
-    const { nama, pesan } = snapshot.val();
-    const komentarEl = document.createElement("div");
-    komentarEl.className = "comment-item";
-    komentarEl.innerHTML = `<strong>${nama}</strong><p>${pesan}</p>`;
-    document.getElementById("daftarKomentar").appendChild(komentarEl);
+  // Tampilkan komentar realtime
+  db.ref("komentar").on("child_added", snap => {
+    const data = snap.val();
+    const id = snap.key;
+    const waktu = new Date(data.waktu).toLocaleString("id-ID");
+
+    const el = document.createElement("div");
+    el.className = "comment-item";
+    el.innerHTML = `
+      <strong>${data.nama}</strong>
+      <small style="float:right;opacity:0.6">${waktu}</small>
+      <p>${data.pesan}</p>
+      <button onclick="tampilFormBalas('${id}')">↩️ Balas</button>
+      <button onclick="hapusKomentar('${id}')">🗑️ Hapus</button>
+      <div id="balasan-${id}" style="margin-left:1rem;margin-top:0.5rem;"></div>
+      <div id="form-balas-${id}" style="display:none;margin-top:0.5rem;">
+        <input id="nama-balas-${id}" placeholder="Nama (opsional)">
+        <textarea id="pesan-balas-${id}" rows="2" placeholder="Balas komentar..."></textarea>
+        <button onclick="kirimBalasan('${id}')">Kirim Balasan</button>
+      </div>
+    `;
+    document.getElementById("daftarKomentar").appendChild(el);
+
+    // Tampilkan balasan jika ada
+    if (data.balasan) {
+      Object.entries(data.balasan).forEach(([balasID, balasan]) => {
+        tampilkanBalasan(id, balasan);
+      });
+    }
+
+    // Realtime jika ada balasan baru
+    db.ref("komentar/" + id + "/balasan").on("child_added", snap => {
+      tampilkanBalasan(id, snap.val());
+    });
   });
+
+  // Fungsi balasan
+  function tampilFormBalas(id) {
+    document.getElementById("form-balas-" + id).style.display = "block";
+  }
+
+  function kirimBalasan(id) {
+    const nama = document.getElementById("nama-balas-" + id).value || "Anonim";
+    const pesan = document.getElementById("pesan-balas-" + id).value.trim();
+    if (!pesan) return;
+    const waktu = new Date().toISOString();
+    const ref = db.ref("komentar/" + id + "/balasan").push();
+    ref.set({ nama, pesan, waktu });
+    document.getElementById("pesan-balas-" + id).value = "";
+    document.getElementById("form-balas-" + id).style.display = "none";
+  }
+
+  function tampilkanBalasan(id, data) {
+    const waktu = new Date(data.waktu).toLocaleString("id-ID");
+    const balasEl = document.createElement("div");
+    balasEl.style = "margin-left:1rem;margin-top:0.5rem;padding:0.5rem;background:rgba(255,255,255,0.1);border-radius:8px;";
+    balasEl.innerHTML = `<strong>${data.nama}</strong> <small style="float:right;opacity:0.6">${waktu}</small><p>${data.pesan}</p>`;
+    document.getElementById("balasan-" + id).appendChild(balasEl);
+  }
+
+  // Hapus komentar (fitur admin manual, tanpa auth)
+  function hapusKomentar(id) {
+    const konfirmasi = confirm("Yakin ingin hapus komentar ini?");
+    if (konfirmasi) {
+      db.ref("komentar/" + id).remove();
+      document.location.reload();
+    }
+  }
 </script>
-  </script>
 </body>
 </html>
