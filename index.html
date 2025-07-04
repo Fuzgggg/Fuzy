@@ -239,8 +239,12 @@
       </div>
     </div>
   </section>
-
   <script>
+    // (script tetap sama, tidak ditampilkan agar ringkas)
+  </script>
+
+
+<script>
   // Suara klik
   document.querySelectorAll("button, .join-btn, .theme-toggle").forEach(el => {
     el.addEventListener("click", () => {
@@ -313,6 +317,7 @@
 
     const el = document.createElement("div");
     el.className = "comment-item";
+    el.id = "komentar-" + id;
     el.innerHTML = `
       <strong>${data.nama}</strong>
       <small style="float:right;opacity:0.6">${waktu}</small>
@@ -341,6 +346,13 @@
     });
   });
 
+  // Jika komentar dihapus, langsung hilang dari DOM
+  db.ref("komentar").on("child_removed", snap => {
+    const id = snap.key;
+    const el = document.getElementById("komentar-" + id);
+    if (el) el.remove();
+  });
+
   // Fungsi balasan
   function tampilFormBalas(id) {
     document.getElementById("form-balas-" + id).style.display = "block";
@@ -365,12 +377,11 @@
     document.getElementById("balasan-" + id).appendChild(balasEl);
   }
 
-  // Hapus komentar (fitur admin manual, tanpa auth)
+  // Hapus komentar
   function hapusKomentar(id) {
     const konfirmasi = confirm("Yakin ingin hapus komentar ini?");
     if (konfirmasi) {
       db.ref("komentar/" + id).remove();
-      document.location.reload();
     }
   }
 </script>
