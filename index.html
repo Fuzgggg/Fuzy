@@ -210,13 +210,6 @@
       </select>
       <button type="submit">💬 Beli Sekarang via WhatsApp</button>
     </form>
-    <div class="comments">
-      <h2>💬 Komentar Pengunjung</h2>
-      <input type="text" id="nama" placeholder="Nama (opsional)">
-      <textarea id="pesan" rows="3" placeholder="Tulis komentar kamu..."></textarea>
-      <button onclick="kirimKomentar()">Kirim Komentar</button>
-      <div id="daftarKomentar"></div>
-    </div>
     <div class="rules-box">
       <h2>🍀 🏹Rules🏹 🍁</h2>
       <ul>
@@ -289,100 +282,6 @@
     const pesan = `Halo Admin! Saya ingin beli rank:\n\n📛 Nama: ${player}\n🎟 Rank: ${rank}\n💳 Pembayaran: ${bayar}`;
     window.open(`https://wa.me/6281252768236?text=${encodeURIComponent(pesan)}`);
     return false;
-  }
-
-  // Firebase init
-  const firebaseConfig = {
-    databaseURL: "https://kainetworkmc-default-rtdb.firebaseio.com/"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // Kirim komentar utama
-  function kirimKomentar() {
-    const nama = document.getElementById("nama").value || "Anonim";
-    const pesan = document.getElementById("pesan").value.trim();
-    if (!pesan) return;
-    const waktu = new Date().toISOString();
-    const ref = db.ref("komentar").push();
-    ref.set({ nama, pesan, waktu });
-    document.getElementById("pesan").value = "";
-  }
-
-  // Tampilkan komentar realtime
-  db.ref("komentar").on("child_added", snap => {
-    const data = snap.val();
-    const id = snap.key;
-    const waktu = new Date(data.waktu).toLocaleString("id-ID");
-
-    const el = document.createElement("div");
-    el.className = "comment-item";
-    el.id = "komentar-" + id;
-    el.innerHTML = `
-      <strong>${data.nama}</strong>
-      <small style="float:right;opacity:0.6">${waktu}</small>
-      <p>${data.pesan}</p>
-      <button onclick="tampilFormBalas('${id}')">↩️ Balas</button>
-      <button onclick="hapusKomentar('${id}')">🗑️ Hapus</button>
-      <div id="balasan-${id}" style="margin-left:1rem;margin-top:0.5rem;"></div>
-      <div id="form-balas-${id}" style="display:none;margin-top:0.5rem;">
-        <input id="nama-balas-${id}" placeholder="Nama (opsional)">
-        <textarea id="pesan-balas-${id}" rows="2" placeholder="Balas komentar..."></textarea>
-        <button onclick="kirimBalasan('${id}')">Kirim Balasan</button>
-      </div>
-    `;
-    document.getElementById("daftarKomentar").appendChild(el);
-
-    // Tampilkan balasan jika ada
-    if (data.balasan) {
-      Object.entries(data.balasan).forEach(([balasID, balasan]) => {
-        tampilkanBalasan(id, balasan);
-      });
-    }
-
-    // Realtime jika ada balasan baru
-    db.ref("komentar/" + id + "/balasan").on("child_added", snap => {
-      tampilkanBalasan(id, snap.val());
-    });
-  });
-
-  // Jika komentar dihapus, langsung hilang dari DOM
-  db.ref("komentar").on("child_removed", snap => {
-    const id = snap.key;
-    const el = document.getElementById("komentar-" + id);
-    if (el) el.remove();
-  });
-
-  // Fungsi balasan
-  function tampilFormBalas(id) {
-    document.getElementById("form-balas-" + id).style.display = "block";
-  }
-
-  function kirimBalasan(id) {
-    const nama = document.getElementById("nama-balas-" + id).value || "Anonim";
-    const pesan = document.getElementById("pesan-balas-" + id).value.trim();
-    if (!pesan) return;
-    const waktu = new Date().toISOString();
-    const ref = db.ref("komentar/" + id + "/balasan").push();
-    ref.set({ nama, pesan, waktu });
-    document.getElementById("pesan-balas-" + id).value = "";
-    document.getElementById("form-balas-" + id).style.display = "none";
-  }
-
-  function tampilkanBalasan(id, data) {
-    const waktu = new Date(data.waktu).toLocaleString("id-ID");
-    const balasEl = document.createElement("div");
-    balasEl.style = "margin-left:1rem;margin-top:0.5rem;padding:0.5rem;background:rgba(255,255,255,0.1);border-radius:8px;";
-    balasEl.innerHTML = `<strong>${data.nama}</strong> <small style="float:right;opacity:0.6">${waktu}</small><p>${data.pesan}</p>`;
-    document.getElementById("balasan-" + id).appendChild(balasEl);
-  }
-
-  // Hapus komentar
-  function hapusKomentar(id) {
-    const konfirmasi = confirm("Yakin ingin hapus komentar ini?");
-    if (konfirmasi) {
-      db.ref("komentar/" + id).remove();
-    }
   }
 </script>
 </body>
